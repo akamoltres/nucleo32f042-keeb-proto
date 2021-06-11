@@ -2,4 +2,6 @@
 
 #include <stdint.h>
 
-uint32_t rtc_get_seconds(void);
+void init_rtc(void);
+// uint32_t rtc_get_seconds(void);
+uint16_t rtc_get_ss(void);

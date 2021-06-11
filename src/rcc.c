@@ -23,9 +23,15 @@ typedef struct
 
 void init_rcc(void)
 {
-    rcc_t *rcc = RCC_BASE;
+    volatile rcc_t *rcc = RCC_BASE;
     rcc->ahbenr |= (1U << 17); // GPIO port A clock enable
     // rcc->ahbenr |= 1U; // DMA1 clock enable
-    rcc->apb2enr |= (1U);
+    rcc->apb2enr |= (1U); // SYSCFG/COMP clock enable
     rcc->apb2enr |= (1U << 12); // SPI1 clock enable
+    rcc->apb1enr |= (1U << 23); // USB clock enable
+    rcc->bdcr |= (1U << 16); // reset RTC domain
+    rcc->bdcr |= (1U << 15); // enable clock
+    rcc->bdcr |= (1U << 9); // RTC to use LSI oscillator
+    rcc->bdcr &= ~(1U << 8);
+    rcc->bdcr &= ~(1U << 16); // clear RTC domain reset
 }

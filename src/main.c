@@ -1,7 +1,9 @@
 #include <apa102c.h>
 #include <dma.h>
 #include <gpio.h>
+#include <power.h>
 #include <rcc.h>
+#include <rtc.h>
 #include <spi.h>
 
 static const apa102c_t led[11] = {
@@ -20,12 +22,16 @@ static const apa102c_t led[11] = {
 
 int main()
 {
+    init_power();
+    init_rtc();
     init_rcc();
 
     set_input(GPIO_A, 0);
     set_pulldown(GPIO_A, 0);
     set_output(GPIO_A, 1);
     set_pushpull(GPIO_A, 1);
+
+    rtc_get_ss();
 
     // init_spi_apa102c((uint32_t *) led, 11);
     send_spi_apa102c((uint16_t *) led, 11 * 2);
